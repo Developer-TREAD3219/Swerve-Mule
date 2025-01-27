@@ -13,7 +13,11 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  // max swerve speed
+  public static final double MAX_SPEED = 1.0;
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final double DEADBAND=0.1;
   }
 }
