@@ -17,8 +17,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import main.java.frc.commands.FollowDemoTag;
+import frc.robot.subsystems.LimeLightSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+import frc.robot.commands.FollowTag;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -33,6 +36,11 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
+  private final LimeLightSubsystem    limeLight  = new LimeLightSubsystem();
+
+   // Create the FollowDemoTag command
+  private final FollowDemoTag followDemoTag = new FollowDemoTag(drivebase, limeLight);
+
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -114,6 +122,9 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
+
+    // Bind the FollowDemoTag command to the A button being held down
+    driverXbox.a().whileHeld(followDemoTag);
 
     if (RobotBase.isSimulation())
     {
