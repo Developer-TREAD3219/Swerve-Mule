@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.VisionConstants;
 
 public class LimeLightSubsystem extends SubsystemBase {
@@ -26,12 +27,13 @@ public class LimeLightSubsystem extends SubsystemBase {
     private double lastUpdateTime = 0.0;
 
     // Target lock on maxDistance: the farthest away in meters that we want to lock on from
-    private final double maxLockOnDistance = 0.5;
+    private final double maxLockOnDistance = 10;
 
     private double currentLockDistance = Double.MAX_VALUE;
 
     public LimeLightSubsystem() {
         // Initialize Limelight settings if needed
+    Shuffleboard.getTab("Vision").addBoolean("hasReefTarget", () -> false);
     }
 
     public void driverMode() {
@@ -113,12 +115,12 @@ public class LimeLightSubsystem extends SubsystemBase {
     public void periodic() {
         update();
         if (currentLock != null) {
-            SmartDashboard.putNumber("Apriltag ID", getApriltagID());
-            SmartDashboard.putNumber("Skew", getSkew());
-            SmartDashboard.putNumber("Yaw", getYaw());
-            SmartDashboard.putNumber("Pitch", getPitch());
-            // SmartDashboard.putBoolean("Ambiguous Pose", isAmbiguousPose());
-            SmartDashboard.putNumber("Distance", get2dDistance(currentLock));
+            Shuffleboard.getTab("Vision").add("Apriltag ID", getApriltagID());
+            Shuffleboard.getTab("Vision").add("Skew", getSkew());
+            Shuffleboard.getTab("Vision").add("Yaw", getYaw());
+            Shuffleboard.getTab("Vision").add("Pitch", getPitch());
+            // Shuffleboard.getTab("Vision").add("Ambiguous Pose", isAmbiguousPose());
+            Shuffleboard.getTab("Vision").add("Distance", get2dDistance(currentLock));
         }
         // This method will be called once per scheduler run
     }

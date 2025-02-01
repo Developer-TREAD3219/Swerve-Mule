@@ -97,9 +97,11 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    //Set up Limelight
+    limeLight.detectAprilTags();
     // Configure the trigger bindings
     configureBindings();
-    DriverStation.silenceJoystickConnectionWarning(true);
+    configureBindings();
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
   }
 
