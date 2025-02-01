@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -124,6 +125,9 @@ public class RobotContainer
 
     // Bind the FollowDemoTag command to the A button being held down
     driverXbox.a().whileTrue(followTag);
+    // Bind the B button to change a value in the SmartDashboard
+        driverXbox.b().onTrue(Commands.runOnce(() -> SmartDashboard.putBoolean("B Button Pressed", true)));
+
 
     if (RobotBase.isSimulation())
     {
