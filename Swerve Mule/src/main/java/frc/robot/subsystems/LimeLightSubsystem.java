@@ -14,7 +14,7 @@ import frc.robot.Constants.VisionConstants;
 
 public class LimeLightSubsystem extends SubsystemBase {
     // Limelight for reading AprilTags
-    private final String limelightCam = VisionConstants.kCameraName;
+    private final String limelightCam = "Limelight";
     private LimelightHelpers.LimelightResults result;
     private LimelightHelpers.LimelightTarget_Fiducial currentLock;
 
@@ -44,9 +44,10 @@ public class LimeLightSubsystem extends SubsystemBase {
         LimelightHelpers.setPipelineIndex(limelightCam, 0);
     }
 
-    public LimelightTarget_Fiducial getCurrentLock() {
-        return currentLock;
+    public Optional<LimelightTarget_Fiducial> getCurrentLock() {
+        return Optional.ofNullable(currentLock);
     }
+
 
     public void update() {
         double currentTime = Timer.getFPGATimestamp();

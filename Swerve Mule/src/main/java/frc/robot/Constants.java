@@ -20,4 +20,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final double DEADBAND=0.1;
   }
+  public static class VisionConstants {
+    //constants related to vision go here
+  }
 }
