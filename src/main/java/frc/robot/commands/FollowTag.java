@@ -10,7 +10,11 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LimeLightSubsystem;
+import frc.robot.subsystems.TargetLock;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class FollowTag extends Command {
     private final SwerveSubsystem drive;
@@ -29,12 +33,23 @@ public class FollowTag extends Command {
 
     @Override
     public void execute() {
-        Optional<LimelightTarget_Fiducial> currentLock = limeLight.getCurrentLock();
+        NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+        NetworkTableEntry apriltagIDEntry = limelightTable.getEntry("Apriltag ID");
+        NetworkTableEntry txEntry = limelightTable.getEntry("tx");
+        NetworkTableEntry tyEntry = limelightTable.getEntry("ty");
+        NetworkTableEntry tsEntry = limelightTable.getEntry("ts");
+        NetworkTableEntry distanceEntry = limelightTable.getEntry("Distance");
+
+        double apriltagID = apriltagIDEntry.getDouble(-1);
+        double tx = txEntry.getDouble(0.0);
+        double ty = tyEntry.getDouble(0.0);
+        double ts = tsEntry.getDouble(0.0);
+        double distance = distanceEntry.getDouble(0.0);
+
         Pose2d targetPose;
-        if (currentLock.isPresent()) {
-            targetPose = currentLock.get()
-                .getCameraPose_TargetSpace()
-                .toPose2d()
+        if (apriltagID != -1) {
+            // Assuming getCameraPose_TargetSpace() and toPose2d() are methods to convert the data to Pose2d
+            targetPose = new Pose2d(tx, ty, new Rotation2d(ts))
                 .transformBy(new Transform2d(new Translation2d(1.0, 0.0), new Rotation2d(0.0)));
         } else {
             targetPose = drive.getPose();

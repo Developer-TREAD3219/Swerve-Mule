@@ -97,8 +97,6 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-    //Set up Limelight
-    limeLight.detectAprilTags();
     // Configure the trigger bindings
     configureBindings();
     configureBindings();
